@@ -30,6 +30,7 @@ pub struct Event {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Pattern {
+    pub channel: Option<u8>,
     pub events: Vec<Event>,
     pub length_bars: Option<FractionalDuration>,
 }
@@ -63,6 +64,7 @@ impl Pattern {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct NamedPattern {
+    pub channel: u8,
     pub events: Vec<Event>,
     pub length_bars: Option<FractionalDuration>,
     pub name: String,
@@ -329,6 +331,7 @@ mod tests {
     #[test]
     fn test_precise_pattern() -> Result<(), String> {
         let pattern = Pattern {
+            channel: Some(1),
             length_bars: Some(FractionalDuration { num: 1, den: 2 }),
             events: vec![
                 Event {

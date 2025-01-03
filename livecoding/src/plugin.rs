@@ -128,6 +128,7 @@ impl Live {
             .or(Some(FractionalDuration { num: 1, den: 1 }));
         let precise_pattern = PrecisePattern::from(
             &mut Pattern {
+                channel: Some(named_pattern.channel),
                 length_bars: pattern_length,
                 events: named_pattern.events.clone(),
             },
@@ -138,6 +139,7 @@ impl Live {
         self.patterns.insert(
             named_pattern.name.clone(),
             Pattern {
+                channel: Some(named_pattern.channel),
                 length_bars: pattern_length,
                 events: named_pattern.events.clone(),
             },
@@ -178,14 +180,14 @@ impl Live {
             NoteType::On => context.send_event(NoteEvent::NoteOn {
                 timing: sev.timing,
                 voice_id: sev.voice_id,
-                channel: sev.channel,
+                channel: sev.channel - 1,
                 note: sev.note,
                 velocity: sev.velocity,
             }),
             NoteType::Off => context.send_event(NoteEvent::NoteOff {
                 timing: sev.timing,
                 voice_id: sev.voice_id,
-                channel: sev.channel,
+                channel: sev.channel - 1,
                 note: sev.note,
                 velocity: 0.0,
             }),
